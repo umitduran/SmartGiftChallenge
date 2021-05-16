@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import Button from "./Button";
-import ProductImage from "./ProductImage";
-import Text from './Text';
-import Select from "./Select";
+import Button from "./subcomponents/Button";
+import ProductImage from "./subcomponents/ProductImage";
+import Text from './subcomponents/Text';
+import Select from "./subcomponents/Select";
 
 const StyledContent = styled.section`
     max-width: 1200px;

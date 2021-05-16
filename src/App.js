@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState,useEffect } from 'react';
 import styled from 'styled-components';
-import Header from "./components/Header";
+import Header from "./components/subcomponents/Header";
 import Product from './components/Product';
+import Modal from './components/Modal/Modal';
 
 const MainWrapper = styled.section`
     max-width: 1200px;
@@ -13,10 +14,20 @@ const MainWrapper = styled.section`
 `;
 
 
+
 const App = () => {
+
+    const [modalOpen, setModalOpen] = useState(true);
+
+    useEffect(() => {
+        //TODO burda bug var ekran prevent oluyor;
+    }, [modalOpen]);
+
     return (
 
         <MainWrapper>
+
+            <Modal id='modal' onClose={setModalOpen} isOpen={modalOpen}></Modal>
 
             <Header/>
 
