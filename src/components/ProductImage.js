@@ -12,8 +12,11 @@ const StyledImage = styled.div`
 const StyledImageDetail = styled.p`
     width: 100%;
     height: 100px;
-    font-size: 1.5rem;
+    font-size: 0.9rem;
     font-family: monospace;
+    color: black;
+    background: #ffffff;
+    background-color: #e4ecef;
 `;
 
 const StyledProduct = styled.div`
