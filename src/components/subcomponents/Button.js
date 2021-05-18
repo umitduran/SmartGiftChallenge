@@ -8,7 +8,6 @@ const StyledButton = styled.button`
     outline: none;
     border: 1px solid;
     border-radius: 10px;
-    width: 50%;
     height: 40px;
     background-color: #5fcc93;
     color: white;
@@ -17,11 +16,12 @@ const StyledButton = styled.button`
     ${({accept}) => accept && 
     css`
         background-color: #FF5F15;
+        width: 50%;
         color: white;
         box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.2);
     `}
     
-       ${({accept}) => accept &&
+       ${({enter}) => enter &&
     css`
         width: 20%;
         height: 30px;

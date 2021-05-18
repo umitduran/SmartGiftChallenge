@@ -4,6 +4,8 @@ import Button from "./subcomponents/Button";
 import ProductImage from "./subcomponents/ProductImage";
 import Text from './subcomponents/Text';
 import Select from "./subcomponents/Select";
+import { withRouter } from 'react-router-dom';
+import Header from "./subcomponents/Header";
 
 const StyledContent = styled.section`
     max-width: 1200px;
@@ -59,5 +61,6 @@ const Product = () => {
     )
 }
 
-export default  Product;
+const ProductWithRouter = withRouter(Product);
+export default  ProductWithRouter;
 

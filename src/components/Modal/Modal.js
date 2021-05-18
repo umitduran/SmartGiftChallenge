@@ -4,6 +4,8 @@ import styles from "./modal.module.css";
 import Button from '../subcomponents/Button';
 import Header from "../subcomponents/Header";
 import Input from "../subcomponents/Input";
+import {useHistory} from 'react-router-dom';
+
 
 
 const StyledFooter = styled.footer`
@@ -21,6 +23,8 @@ const StyledContent = styled.div`
 `;
 
 const Modal = ({ modalStyle, children, show, onClose, backdropStyle }) => {
+    const history = useHistory();
+
     const modalRef = useRef(null);
 
     const [merchantCode, setMerchantCode] = useState("");
@@ -34,6 +38,11 @@ const Modal = ({ modalStyle, children, show, onClose, backdropStyle }) => {
         }
     }, [show]);
 
+    function handleClose() {
+        onClose(merchantCode,productCode);
+        history.push('/product');
+    }
+
     return (
         <React.Fragment>
             <div ref={modalRef} style={backdropStyle} className={`${styles.modal}`}>
@@ -42,7 +51,7 @@ const Modal = ({ modalStyle, children, show, onClose, backdropStyle }) => {
                         <div className="text">
                             <Header>Welcome SmartGift</Header>
                             <p style={{
-                                'fontfamily': 'sans-serif',
+                                'fontFamily': 'sans-serif',
                                 'margin': '20px'
                             }}>
                                 To see product detail you have to enter the Merchant Code and the Product Code
@@ -62,7 +71,7 @@ const Modal = ({ modalStyle, children, show, onClose, backdropStyle }) => {
                         </div>
                     </div>
                     <StyledFooter>
-                        <Button onClick={onClose} accept>
+                        <Button onClick={handleClose} enter>
                             Enter
                         </Button>
                     </StyledFooter>
