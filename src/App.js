@@ -17,21 +17,20 @@ const MainWrapper = styled.section`
 
 const App = () => {
 
-    const [modalOpen, setModalOpen] = useState(true);
-
-    useEffect(() => {
-        //TODO burda bug var ekran prevent oluyor;
-    }, [modalOpen]);
+    const [show, setShow] = useState(true);
 
     return (
 
         <MainWrapper>
 
-            <Modal id='modal' onClose={setModalOpen} isOpen={modalOpen}></Modal>
 
-            <Header/>
+            <Modal show={show} onClose={() => setShow(false)} />
 
-            <Product/>
+{/*            <Header>
+                Product Detail
+            </Header>
+
+            <Product/>*/}
 
         </MainWrapper>
     )

@@ -17,8 +17,10 @@ const StyledHeader = styled.header`
     font-size: 1.6rem;
 `;
 
-const Header = () => {
-    return <StyledHeader>Product Detail</StyledHeader>
+const Header = ({children}) => {
+    return <StyledHeader>
+        {children}
+    </StyledHeader>
 };
 
 export default Header;

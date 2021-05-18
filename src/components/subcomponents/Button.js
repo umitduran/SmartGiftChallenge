@@ -20,10 +20,21 @@ const StyledButton = styled.button`
         color: white;
         box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.2);
     `}
+    
+       ${({accept}) => accept &&
+    css`
+        width: 20%;
+        height: 30px;
+        margin-top: 10px;
+        background-color: #52b788;
+        color: white;
+        box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.2);
+    `}
+    
 `;
 
-const Button = ({ accept, children }) => {
-    return <StyledButton accept={accept}>{children}</StyledButton>
+const Button = ({ accept, onClick, children }) => {
+    return <StyledButton accept={accept} onClick={onClick}>{children}</StyledButton>
 };
 
 export default Button;

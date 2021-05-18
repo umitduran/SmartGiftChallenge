@@ -1,97 +1,75 @@
-import React, { Component } from "react";
-import ReactDom from "react-dom";
-import PropTypes from "prop-types";
+import React, {useState, useEffect, useRef } from "react";
+import styled from 'styled-components';
+import styles from "./modal.module.css";
+import Button from '../subcomponents/Button';
+import Header from "../subcomponents/Header";
+import Input from "../subcomponents/Input";
 
-import StyledModal from "./Modal.css";
 
-const modalRoot = document.getElementById("root");
+const StyledFooter = styled.footer`
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+`;
 
-class Modal extends Component {
-    static defaultProps = {
-        id: "",
-        modalClass: "",
-        modalSize: "md"
-    };
+const StyledContent = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+`;
 
-    static propTypes = {
-        id: PropTypes.string.isRequired,
-        onClose: PropTypes.func,
-        isOpen: PropTypes.bool,
-        modalClass: PropTypes.string,
-        modalSize: PropTypes.string
-    };
+const Modal = ({ modalStyle, children, show, onClose, backdropStyle }) => {
+    const modalRef = useRef(null);
 
-    state = { fadeType: null };
+    const [merchantCode, setMerchantCode] = useState("");
+    const [productCode, setProductCode] = useState("");
 
-    background = React.createRef();
-
-    componentDidMount() {
-        window.addEventListener("keydown", this.onEscKeyDown, false);
-        setTimeout(() => this.setState({ fadeType: "in" }), 0);
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (!this.props.isOpen && prevProps.isOpen) {
-            this.setState({ fadeType: "out" });
+    useEffect(() => {
+        if (show) {
+            modalRef.current.classList.add(styles.visible);
+        } else {
+            modalRef.current.classList.remove(styles.visible);
         }
-    }
+    }, [show]);
 
-    componentWillUnmount() {
-        window.removeEventListener("keydown", this.onEscKeyDown, false);
-    }
+    return (
+        <React.Fragment>
+            <div ref={modalRef} style={backdropStyle} className={`${styles.modal}`}>
+                <div style={modalStyle} className={styles.modal__wrap}>
+                    <div className="content">
+                        <div className="text">
+                            <Header>Welcome SmartGift</Header>
+                            <p style={{
+                                'fontfamily': 'sans-serif',
+                                'margin': '20px'
+                            }}>
+                                To see product detail you have to enter the Merchant Code and the Product Code
+                            </p>
+                            <StyledContent>
+                                <Input
+                                    placeholder={'Merchant Code'}
+                                    value={merchantCode}
+                                    onChange={merchantCode => setMerchantCode(merchantCode.target.value)}/>
 
-    transitionEnd = e => {
-        if (e.propertyName !== "opacity" || this.state.fadeType === "in") return;
-
-        if (this.state.fadeType === "out") {
-            this.props.onClose();
-        }
-    };
-
-    onEscKeyDown = e => {
-        if (e.key !== "Escape") return;
-        this.setState({ fadeType: "out" });
-    };
-
-    handleClick = e => {
-        e.preventDefault();
-        this.setState({ fadeType: "out" });
-    };
-
-    render() {
-        return ReactDom.createPortal(
-            <StyledModal
-                id={this.props.id}
-                className={`wrapper ${"size-" + this.props.modalSize} fade-${
-                    this.state.fadeType
-                    } ${this.props.modalClass}`}
-                role="dialog"
-                modalSize={this.props.modalSize}
-                onTransitionEnd={this.transitionEnd}
-            >
-                <div className="box-dialog">
-                    <div className="box-header">
-                        <h4 className="box-title">Welcome SmartGift</h4>
-                        <button onClick={this.handleClick} className="close">
-                            ×
-                        </button>
+                                <Input
+                                    placeholder={'Product Code'}
+                                    value={productCode}
+                                    onChange={productCode => setProductCode(productCode.target.value)}
+                                />
+                            </StyledContent>
+                        </div>
                     </div>
-                    <div className="box-content">{this.props.children}</div>
-                    <div className="box-footer">
-                        <button onClick={this.handleClick} className="close">
-                            Close
-                        </button>
-                    </div>
+                    <StyledFooter>
+                        <Button onClick={onClose} accept>
+                            Enter
+                        </Button>
+                    </StyledFooter>
                 </div>
-                <div
-                    className={`background`}
-                    onMouseDown={this.handleClick}
-                    ref={this.background}
-                />
-            </StyledModal>,
-            modalRoot
-        );
-    }
-}
+            </div>
+        </React.Fragment>
+    );
+};
 
 export default Modal;
