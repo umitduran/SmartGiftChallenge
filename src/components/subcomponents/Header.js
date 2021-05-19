@@ -6,7 +6,7 @@ const StyledHeader = styled.header`
     background-image: url(../../assets/smartgift.png);
     background-size: contain;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-flow: row wrap;
     height: 60px;
     min-width: 120px;

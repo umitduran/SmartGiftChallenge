@@ -31,10 +31,16 @@ const StyledButton = styled.button`
         box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.2);
     `}
     
+    ${({disabled}) => disabled &&
+    css`
+        background-color: #8d99ae;
+        width: 80%;
+    `}
+    
 `;
 
-const Button = ({ accept, onClick, children }) => {
-    return <StyledButton accept={accept} onClick={onClick}>{children}</StyledButton>
+const Button = ({ accept, onClick,disabled, children }) => {
+    return <StyledButton disabled={disabled} accept={accept} onClick={onClick}>{children}</StyledButton>
 };
 
 export default Button;

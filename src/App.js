@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import styled from 'styled-components';
-import Modal from './components/Modal/Modal';
+import Welcome from './components/Welcome/Welcome';
 import {Context} from "./context/Store";
 import { withRouter } from 'react-router-dom';
 
@@ -17,7 +17,7 @@ const MainWrapper = styled.section`
 
 const App = () => {
 
-    const [state, dispatch] = useContext(Context);
+    const [context, dispatch] = useContext(Context);
 
     const [show, setShow] = useState(true);
 
@@ -30,9 +30,7 @@ const App = () => {
     return (
         <MainWrapper>
 
-            <Modal show={show} onClose={handleClose} />
-
-            <div>{state.merchantCode} + {state.productCode}</div>
+            <Welcome show={show} onClose={handleClose} />
 
         </MainWrapper>
     )

@@ -22,8 +22,8 @@ const StyledSelect = styled.select`
 `;
 
 
-const Select = ({children}) => {
-    return <StyledSelect>{children}</StyledSelect>
+const Select = ({onChange, children}) => {
+    return <StyledSelect onChange={onChange}>{children}</StyledSelect>
 };
 
 export default Select;

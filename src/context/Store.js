@@ -4,6 +4,7 @@ import Reducer from './Reducer';
 const initialState = {
     merchantCode: '',
     productCode: '',
+    products: [],
     error: null
 };
 

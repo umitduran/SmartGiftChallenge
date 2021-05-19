@@ -12,6 +12,18 @@ const Reducer = (state, action) => {
                 productCode: action.payload
             };
 
+        case 'GET_PRODUCTS':
+            return {
+                ...state,
+                products: action.payload
+            };
+
+        case 'GET_PRODUCTS_FAIL':
+            return {
+                ...state,
+                error: action.payload
+            }
+
         default:
             return state;
     }

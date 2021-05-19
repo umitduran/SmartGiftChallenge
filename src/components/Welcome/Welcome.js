@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef } from "react";
 import styled from 'styled-components';
-import styles from "./modal.module.css";
+import styles from "./welcome.module.css";
 import Button from '../subcomponents/Button';
 import Header from "../subcomponents/Header";
 import Input from "../subcomponents/Input";
@@ -22,7 +22,7 @@ const StyledContent = styled.div`
     align-items: center;
 `;
 
-const Modal = ({ modalStyle, children, show, onClose, backdropStyle }) => {
+const Welcome = ({ modalStyle, children, show, onClose, backdropStyle }) => {
     const history = useHistory();
 
     const modalRef = useRef(null);
@@ -81,4 +81,4 @@ const Modal = ({ modalStyle, children, show, onClose, backdropStyle }) => {
     );
 };
 
-export default Modal;
+export default Welcome;

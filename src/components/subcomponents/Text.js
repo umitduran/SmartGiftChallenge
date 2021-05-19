@@ -8,7 +8,7 @@ const StyledText = styled.label`
 `;
 
 const Text = ({children}) => {
-    return <StyledText >Running Shoes</StyledText>
+    return <StyledText>{children}</StyledText>
 }
 
 export default Text;

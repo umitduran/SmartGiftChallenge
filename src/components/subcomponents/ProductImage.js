@@ -11,9 +11,9 @@ const StyledImage = styled.div`
 
 const StyledImageDetail = styled.p`
     width: 100%;
-    height: 100px;
-    font-size: 0.9rem;
-    font-family: monospace;
+    height: 100%;
+    font-size: 1rem;
+    font-family: auto;
     color: black;
     background: #ffffff;
     background-color: #e4ecef;
@@ -25,9 +25,16 @@ const StyledProduct = styled.div`
 
 const ProductImage = ({ src,description }) => {
     return <StyledProduct>
-        <StyledImage src={src}/>
-        <StyledImageDetail>{description}</StyledImageDetail>
-    </StyledProduct>
+                <StyledImage src={src}/>
+                <StyledImageDetail>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        alignContent: 'center',
+                    }} dangerouslySetInnerHTML={{ __html: description }} />
+                </StyledImageDetail>
+            </StyledProduct>
 };
 
 export default ProductImage;
