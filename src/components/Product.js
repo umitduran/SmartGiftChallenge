@@ -4,7 +4,7 @@ import Button from "./subcomponents/Button";
 import ProductImage from "./subcomponents/ProductImage";
 import Text from './subcomponents/Text';
 import Select from "./subcomponents/Select";
-import { withRouter } from 'react-router-dom';
+import { withRouter, useHistory } from 'react-router-dom';
 import Header from "./subcomponents/Header";
 import API from '../api';
 import {Context} from "../context/Store";
@@ -32,22 +32,29 @@ const StyledFilterSection = styled.section`
 `;
 
 
-const Product = () => {
+const Product = (props) => {
+    const history = useHistory();
     const [context, dispatch] = useContext(Context);
 
     const [product,setProduct] = useState({});
 
-    //apps/products?merchantCode=${context.merchantCode}&codes[]=${context.productCode}
+    let {productCode} = (props.location && props.location.state) || {};
+
     useEffect(() => {
-        API.get(`apps/products?merchantCode=vineyardvines&codes[]=1K000006`)
-            .then(oResp => {
-               dispatch({type: 'GET_PRODUCTS', payload: oResp.data.data});  // set global state
-                setProduct(oResp.data.data[0].selectedSku);                             //set Locale state
-               console.log(oResp.data.data);    //todo remove later
-            })
-            .catch(oErr => {
-                dispatch({type: 'GET_PRODUCTS_FAIL', payload: oErr.message});
+        if (!productCode) {
+            history.push({
+                pathname: '/',
             });
+        } else {
+            API.get(`apps/products?merchantCode=${context.merchantCode}&codes[]=${productCode}`)
+                .then(oResp => {
+                   dispatch({type: 'GET_PRODUCTS', payload: oResp.data.data});  // set global state
+                    setProduct(oResp.data.data[0].selectedSku);                             //set Locale state
+                })
+                .catch(oErr => {
+                    dispatch({type: 'GET_PRODUCTS_FAIL', payload: oErr.message});
+                });
+        }
     }, []);
 
     let products = <p>Product are Loading ...</p>;
@@ -94,16 +101,10 @@ const Product = () => {
                         </ProductImage>
                         <StyledFilterSection>
                             <Text>{product.name}</Text>
-                            <Select onChange={changeProductSize}>
-                                <option value="" hidden>
-                                    {product.attrs.Size}
-                                </option>
+                            <Select  value={product.attrs.Size} onChange={changeProductSize}>
                                 {attrList.Size.map((size,index) => <option key={index} value={size}>{size}</option>)}
                             </Select>
-                            <Select onChange={changeProductColor}>
-                                <option value="" hidden>
-                                    {product.attrs.Color}
-                                </option>
+                            <Select value={product.attrs.Color} onChange={changeProductColor}>
                                 {attrList.Color.map((color,index) => <option key={index} value={color}>{color}</option>)}
                             </Select>
                             <Button accept='true' disabled={!product.orderable}>

@@ -40,7 +40,14 @@ const Welcome = ({ modalStyle, children, show, onClose, backdropStyle }) => {
 
     function handleClose() {
         onClose(merchantCode,productCode);
-        history.push('/product');
+        history.push({
+            pathname: '/product',
+            search: `?code=${productCode}`,
+            state: {
+                merchantCode,
+                productCode
+            }
+        });
     }
 
     return (
