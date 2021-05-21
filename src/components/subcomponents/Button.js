@@ -36,11 +36,13 @@ const StyledButton = styled.button`
         background-color: #8d99ae;
         width: 80%;
     `}
-    
 `;
 
 const Button = ({ accept, onClick,disabled, children }) => {
-    return <StyledButton disabled={disabled} accept={accept} onClick={onClick}>{children}</StyledButton>
+    return <StyledButton
+        disabled={disabled}
+        accept={accept}
+        onClick={onClick}>{children}</StyledButton>
 };
 
 export default Button;

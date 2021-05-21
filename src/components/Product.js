@@ -1,14 +1,16 @@
 import React, {useContext, useEffect, useState} from 'react';
 import styled from 'styled-components';
+import { withRouter, useHistory } from 'react-router-dom';
+import {Context} from "../context/Store";
+import API from '../api';
+import {isEmpty} from 'lodash';
 import Button from "./subcomponents/Button";
 import ProductImage from "./subcomponents/ProductImage";
 import Text from './subcomponents/Text';
 import Select from "./subcomponents/Select";
-import { withRouter, useHistory } from 'react-router-dom';
 import Header from "./subcomponents/Header";
-import API from '../api';
-import {Context} from "../context/Store";
-import {isEmpty} from 'lodash';
+import Modal from './subcomponents/Modal';
+import {CloseOutline} from '@styled-icons/evaicons-outline';
 
 const StyledContent = styled.section`
     max-width: 1200px;
@@ -35,20 +37,21 @@ const StyledFilterSection = styled.section`
 const Product = (props) => {
     const history = useHistory();
     const [context, dispatch] = useContext(Context);
-
     const [product,setProduct] = useState({});
+    const [showSKUCode,setShowSKUCode] = useState(false);
 
-    let {productCode} = (props.location && props.location.state) || {};
+    let {productCode,merchantCode} = (props.location && props.location.state) || {};
+    let products = <p>Product are Loading ...</p>;
 
     useEffect(() => {
-        if (!productCode) {
+        if (!productCode || !merchantCode) {
             history.push({
                 pathname: '/',
             });
         } else {
-            API.get(`apps/products?merchantCode=${context.merchantCode}&codes[]=${productCode}`)
+            API.get(`apps/products?merchantCode=${merchantCode}&codes[]=${productCode}`)
                 .then(oResp => {
-                   dispatch({type: 'GET_PRODUCTS', payload: oResp.data.data});  // set global state
+                   dispatch({type: 'GET_PRODUCTS', payload: oResp.data.data});              // set global state
                     setProduct(oResp.data.data[0].selectedSku);                             //set Locale state
                 })
                 .catch(oErr => {
@@ -57,7 +60,6 @@ const Product = (props) => {
         }
     }, []);
 
-    let products = <p>Product are Loading ...</p>;
 
     if (context.error) {
         products = <p>Something went wrong: <span>{context.error}</span></p>
@@ -90,30 +92,45 @@ const Product = (props) => {
     };
 
     if (!context.error && context.products.length !== 0 && !isEmpty(product)) {
-            const {attrList} = context.products[0];
-            return <StyledContent>
-                        <Header>
-                            Product Detail
-                        </Header>
-                        <ProductImage
-                            src={`url(${product.images[0]})`}
-                            description={product.desc}>
-                        </ProductImage>
-                        <StyledFilterSection>
-                            <Text>{product.name}</Text>
-                            <Select  value={product.attrs.Size} onChange={changeProductSize}>
-                                {attrList.Size.map((size,index) => <option key={index} value={size}>{size}</option>)}
-                            </Select>
-                            <Select value={product.attrs.Color} onChange={changeProductColor}>
-                                {attrList.Color.map((color,index) => <option key={index} value={color}>{color}</option>)}
-                            </Select>
-                            <Button accept='true' disabled={!product.orderable}>
-                                {
-                                    product.orderable ? 'Accept' : 'Selection is not available'
-                                }
-                            </Button>
-                        </StyledFilterSection>
-                    </StyledContent>
+        const {attrList} = context.products[0];
+        return <StyledContent>
+                    <Header>
+                        Product Detail
+                    </Header>
+
+                    <ProductImage
+                        src={`url(${product.images[0]})`}
+                        description={product.desc}>
+                    </ProductImage>
+
+                    <StyledFilterSection>
+                        <Text>{product.name}</Text>
+                        <Select  value={product.attrs.Size} onChange={changeProductSize}>
+                            {attrList.Size.map((size,index) => <option key={index} value={size}>{size}</option>)}
+                        </Select>
+                        <Select value={product.attrs.Color} onChange={changeProductColor}>
+                            {attrList.Color.map((color,index) => <option key={index} value={color}>{color}</option>)}
+                        </Select>
+                        <Button accept='true' disabled={!product.orderable} onClick={() => setShowSKUCode(!showSKUCode)}>
+                            {
+                                product.orderable ? 'Accept' : 'Selection is not available'
+                            }
+                        </Button>
+                    </StyledFilterSection>
+
+                    <Modal show={showSKUCode}>
+                        <Modal.Button onClick={() => setShowSKUCode(!showSKUCode)}>
+                            <CloseOutline/>
+                        </Modal.Button>
+                        <Modal.Header>
+                            Selected SKU Code
+                        </Modal.Header>
+                        <Modal.Text>
+                            {product.sku}
+                        </Modal.Text>
+                    </Modal>
+
+                </StyledContent>
     }
 
     return (

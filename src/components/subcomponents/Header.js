@@ -15,12 +15,13 @@ const StyledHeader = styled.header`
     margin-top: 1rem;
     font-family: "Nunito Sans", sans-serif;
     font-size: 1.6rem;
+    color: black
 `;
 
 const Header = ({children}) => {
     return <StyledHeader>
-        {children}
-    </StyledHeader>
+                {children}
+           </StyledHeader>
 };
 
 export default Header;

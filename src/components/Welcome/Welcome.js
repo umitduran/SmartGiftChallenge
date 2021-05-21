@@ -24,9 +24,7 @@ const StyledContent = styled.div`
 
 const Welcome = ({ modalStyle, children, show, onClose, backdropStyle }) => {
     const history = useHistory();
-
     const modalRef = useRef(null);
-
     const [merchantCode, setMerchantCode] = useState("");
     const [productCode, setProductCode] = useState("");
 

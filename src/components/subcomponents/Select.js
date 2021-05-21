@@ -6,9 +6,10 @@ const StyledSelect = styled.select`
   height: 35px;
   background: white;
   color: gray;
-  padding-left: 5px;
   font-size: 14px;
   margin: 10px;
+  border: 1px solid;
+  border-radius: 5px;
 
   option {
     color: black;
@@ -23,7 +24,9 @@ const StyledSelect = styled.select`
 
 
 const Select = ({onChange,value, children}) => {
-    return <StyledSelect value={value} onChange={onChange}>{children}</StyledSelect>
+    return <StyledSelect
+        value={value}
+        onChange={onChange}>{children}</StyledSelect>
 };
 
 export default Select;
